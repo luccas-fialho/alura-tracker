@@ -1,10 +1,10 @@
 <template>
   <main class="columns is-gapless is-multiline">
     <div class="column is-one-quarter">
-      <BarraLateral/>
+      <BarraLateral />
     </div>
     <div class="column is-three-quarter">
-      <FormularioTarefa/>
+      <FormularioTarefa />
     </div>
   </main>
 </template>
@@ -15,14 +15,12 @@ import BarraLateral from './components/BarraLateral.vue';
 import FormularioTarefa from './components/FormularioTarefa.vue';
 
 export default defineComponent({
-    name: "App",
-    components: { 
-      BarraLateral,
-      FormularioTarefa 
-    }
+  name: "App",
+  components: {
+    BarraLateral,
+    FormularioTarefa
+  }
 });
 </script>
 
-<style>
-
-</style>
+<style></style>
