@@ -22,7 +22,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(projeto, index) in projetos" :key="index">
+        <tr v-for="projeto in projetos" :key="projeto.id">
           <td>{{projeto.id}}</td>
           <td>{{projeto.nome}}</td>
         </tr>
@@ -32,24 +32,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import IProjeto from '../interfaces/IProjeto'
+import { computed, defineComponent } from 'vue';
+import { useStore } from '@/store'
+
 export default defineComponent({
   name: 'ProjetosTarefa',
   data() {
     return {
-      nomeDoProjeto: '',
-      projetos: [] as IProjeto[]
+      nomeDoProjeto: ''
     }
   },
   methods: {
     salvar() {
-      const projeto: IProjeto = {
-        nome: this.nomeDoProjeto,
-        id: new Date().toISOString()
-      }
-      this.projetos.push(projeto)
+      this.store.commit('ADICIONA_PROJETO', this.nomeDoProjeto)
       this.nomeDoProjeto = ''
+    }
+  },
+  setup() {
+    const store = useStore()
+    return {
+      store,
+      projetos: computed(() => store.state.projetos)
     }
   }
 })
