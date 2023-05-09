@@ -1,13 +1,13 @@
 <template>
-  <section>
-    <router-link to="/projetos/novo" class="button">
+  <section class="botao-novo">
+    <router-link to="/projetos/novo" class="button is-warning">
       <span class="icon is-small">
         <i class="fas fa-plus"></i>
       </span>
       <span>Novo projeto</span>
     </router-link>
-    <table class="table is-fullwidth">
-      <thead>
+    <table class="table is-fullwidth tabela">
+      <thead class="thead">
         <tr>
           <th>ID</th>
           <th>Nome</th>
@@ -57,3 +57,16 @@ export default defineComponent({
   }
 })
 </script>
+
+<style>
+.botao-novo {
+  background-color: var(--bg-primario);
+}
+.tabela {
+  background-color: var(--bg-primario);
+  color: var(--texto-primario)
+}
+.thead tr th {
+  color: var(--texto-primario);
+}
+</style>

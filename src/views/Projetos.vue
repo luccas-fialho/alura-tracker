@@ -12,8 +12,12 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style >
 .projetos {
   padding: 1.25rem;
+  background-color: var(--bg-primario);
+}
+.title {
+  color: var(--texto-primario);
 }
 </style>
