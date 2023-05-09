@@ -1,10 +1,11 @@
 <template>
-  <main class="columns is-gapless is-multiline" :class="{'modo-escuro': modoEscuroAtivo}">
+  <main class="columns is-gapless is-multiline" :class="{ 'modo-escuro': modoEscuroAtivo }">
     <div class="column is-one-fifths">
-      <BarraLateral @aoTemaAlterado="trocarTema"/>
+      <BarraLateral @aoTemaAlterado="trocarTema" />
     </div>
     <div class="column is-four-fifths conteudo">
       <!-- AQUI VAI A VIEW CORRESPONDENTE -->
+      <Notificacoes />
       <router-view> </router-view>
     </div>
   </main>
@@ -13,11 +14,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import BarraLateral from './components/BarraLateral.vue';
+import Notificacoes from './components/Notificacoes.vue';
 
 export default defineComponent({
   name: "App",
   components: {
-    BarraLateral
+    BarraLateral,
+    Notificacoes
   },
   data() {
     return {
@@ -25,7 +28,7 @@ export default defineComponent({
     }
   },
   methods: {
-    trocarTema(modoEscuroAtivo: boolean) {  
+    trocarTema(modoEscuroAtivo: boolean) {
       this.modoEscuroAtivo = modoEscuroAtivo
     }
   }
@@ -36,15 +39,17 @@ export default defineComponent({
 .lista {
   padding: 1.5rem;
 }
+
 main {
   --bg-primario: #fff;
   --texto-primario: #000;
 }
+
 main.modo-escuro {
   --bg-primario: #2b2d42;
   --texto-primario: #ddd;
 }
+
 .conteudo {
   background-color: var(--bg-primario);
-}
-</style>
+}</style>
