@@ -15,27 +15,25 @@
     </div>
     <RegistroTarefa v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa"
       @aoTarefaClicada="selecionarTarefa" />
-    <div class="modal" :class="{ 'is-active': tarefaSelecionada }" v-if="tarefaSelecionada">
-      <div class="modal-background"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Editando uma tarefa</p>
-          <button @click="fecharModal" class="delete" aria-label="close"></button>
-        </header>
-        <section class="modal-card-body">
-          <div class="field">
-            <label for="descricaoDaTarefa" class="label" id="descricao">
-              Descrição
-            </label>
-            <input type="text" class="input" v-model="tarefaSelecionada.descricao" id="nomeDaTarefa">
-          </div>
-        </section>
-        <footer class="modal-card-foot">
-          <button @click="alterarTarefa" class="button is-success">Salvar Alterações</button>
-          <button @click="fecharModal" class="button">Cancelar</button>
-        </footer>
-      </div>
-    </div>
+    <Modal :mostrar="tarefaSelecionada != null">
+      <template v-slot:cabecalho>
+        <p class="modal-card-title">Editando uma tarefa</p>
+        <button @click="fecharModal" class="delete" aria-label="close"></button>
+      </template >
+      <template v-slot:corpo>
+        <div class="field">
+          <label for="descricaoDaTarefa" class="label" id="descricao">
+            Descrição
+          </label>
+          <input type="text" class="input" 
+          v-if="tarefaSelecionada" v-model="tarefaSelecionada.descricao" id="nomeDaTarefa">
+        </div>
+      </template>
+      <template v-slot:rodape>
+        <button @click="alterarTarefa" class="button is-success">Salvar Alterações</button>
+        <button @click="fecharModal" class="button">Cancelar</button>
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -47,13 +45,15 @@ import BoxAtividade from '../components/BoxAtividade.vue';
 import { useStore } from '@/store';
 import { ALTERAR_TAREFA, CADASTRAR_TAREFA, OBTER_PROJETOS, OBTER_TAREFAS } from '@/store/tipo-acoes';
 import ITarefa from '@/interfaces/ITarefa';
+import Modal from '@/components/Modal.vue';
 
 export default defineComponent({
   name: "App",
   components: {
     FormularioTarefa,
     RegistroTarefa,
-    BoxAtividade
+    BoxAtividade,
+    Modal
   },
   data() {
     return {
