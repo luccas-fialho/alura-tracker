@@ -1,11 +1,20 @@
 <template>
   <FormularioTarefa @aoSalvarTarefa="salvarTarefa" />
   <div class="lista">
+    <BoxAtividade v-if="semTarefas">
+      Você não está muito produtivo hoje
+      <span class="has-text-weight-bold">:(</span>
+    </BoxAtividade>
+    <div class="field">
+      <p class="control has-icons-left">
+        <input class="input" type="text" placeholder="Digite para filtrar" v-model="filtro">
+        <span class="icon is-small is-left">
+          <i class="fas fa-search"></i>
+        </span>
+      </p>
+    </div>
     <RegistroTarefa v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa"
       @aoTarefaClicada="selecionarTarefa" />
-    <BoxAtividade v-if="listaEstaVazia">
-      Você não está muito produtivo hoje :(
-    </BoxAtividade>
     <div class="modal" :class="{ 'is-active': tarefaSelecionada }" v-if="tarefaSelecionada">
       <div class="modal-background"></div>
       <div class="modal-card">
@@ -15,7 +24,7 @@
         </header>
         <section class="modal-card-body">
           <div class="field">
-            <label for="descricaoDaTarefa" class="label">
+            <label for="descricaoDaTarefa" class="label" id="descricao">
               Descrição
             </label>
             <input type="text" class="input" v-model="tarefaSelecionada.descricao" id="nomeDaTarefa">
@@ -31,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, ref, watchEffect } from 'vue';
 import FormularioTarefa from '../components/FormularioTarefa.vue';
 import RegistroTarefa from '../components/RegistroTarefa.vue';
 import BoxAtividade from '../components/BoxAtividade.vue';
@@ -49,7 +58,6 @@ export default defineComponent({
   data() {
     return {
       tarefaSelecionada: null as ITarefa | null,
-
     }
   },
   methods: {
@@ -64,22 +72,38 @@ export default defineComponent({
     },
     alterarTarefa() {
       this.store.dispatch(ALTERAR_TAREFA, this.tarefaSelecionada)
-      .then(() => this.fecharModal())
+        .then(() => this.fecharModal())
     }
   },
   computed: {
-    listaEstaVazia(): boolean {
-      return this.tarefas.length === 0;
+    semTarefas(): boolean {
+      return this.tarefas.length == 0;
     }
   },
   setup() {
     const store = useStore()
     store.dispatch(OBTER_TAREFAS)
     store.dispatch(OBTER_PROJETOS)
+
+    const filtro = ref("")
+
+    // const tarefas = computed(() => store.state.tarefa.tarefas.filter(t => !filtro.value || t.descricao.includes(filtro.value)))
+
+    watchEffect(() => {
+      store.dispatch(OBTER_TAREFAS, filtro.value)
+    })
+
     return {
       tarefas: computed(() => store.state.tarefa.tarefas),
-      store
+      store,
+      filtro
     }
   }
 });
 </script>
+
+<style>
+#descricao {
+  color: black;
+}
+</style>
