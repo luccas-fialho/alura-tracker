@@ -43,11 +43,13 @@ export default defineComponent({
 main {
   --bg-primario: #fff;
   --texto-primario: #000;
+  --bg-secundario: #faf0ca;
 }
 
 main.modo-escuro {
   --bg-primario: #2b2d42;
   --texto-primario: #ddd;
+  --bg-secundario: #13102c;
 }
 
 .conteudo {

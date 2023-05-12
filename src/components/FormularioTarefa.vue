@@ -12,7 +12,7 @@
           </select>
         </div>
       </div>
-      <div class="column">
+      <div class="column teste">
         <TemporizadorAtividade @aoTemporizadorFinalizado="finalizarTarefa" />
       </div>
     </div>
